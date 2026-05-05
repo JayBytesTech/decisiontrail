@@ -31,13 +31,14 @@ export function ExportActions({ decision }: ExportActionsProps) {
   };
 
   return (
-    <div className="flex gap-3">
+    <div className="flex gap-2">
       <button
         onClick={handleCopy}
-        className="inline-flex items-center gap-2 text-sm font-medium text-zinc-600 hover:text-zinc-950"
+        title="Copy Markdown"
+        className="inline-flex h-9 items-center gap-2 rounded-full border border-zinc-200 bg-white px-4 text-[11px] font-bold text-zinc-600 shadow-xs transition-all hover:bg-zinc-50 hover:text-zinc-950 active:scale-95"
       >
         <svg
-          className="h-4 w-4"
+          className="h-3.5 w-3.5"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -45,7 +46,7 @@ export function ExportActions({ decision }: ExportActionsProps) {
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
-            strokeWidth={2}
+            strokeWidth={2.5}
             d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"
           />
         </svg>
@@ -54,7 +55,8 @@ export function ExportActions({ decision }: ExportActionsProps) {
 
       <button
         onClick={handleDownload}
-        className="inline-flex items-center gap-2 text-sm font-medium text-zinc-600 hover:text-zinc-950"
+        title="Download .md"
+        className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-zinc-200 bg-white text-zinc-600 shadow-xs transition-all hover:bg-zinc-50 hover:text-zinc-950 active:scale-95"
       >
         <svg
           className="h-4 w-4"
@@ -69,7 +71,6 @@ export function ExportActions({ decision }: ExportActionsProps) {
             d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
           />
         </svg>
-        Download .md
       </button>
     </div>
   );
