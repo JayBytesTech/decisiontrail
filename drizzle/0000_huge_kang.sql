@@ -1,0 +1,60 @@
+CREATE TYPE "public"."decision_status" AS ENUM('proposed', 'accepted', 'superseded', 'archived');--> statement-breakpoint
+CREATE TABLE "account" (
+	"userId" text NOT NULL,
+	"type" text NOT NULL,
+	"provider" text NOT NULL,
+	"providerAccountId" text NOT NULL,
+	"refresh_token" text,
+	"access_token" text,
+	"expires_at" integer,
+	"token_type" text,
+	"scope" text,
+	"id_token" text,
+	"session_state" text,
+	CONSTRAINT "account_provider_providerAccountId_pk" PRIMARY KEY("provider","providerAccountId")
+);
+--> statement-breakpoint
+CREATE TABLE "decision" (
+	"id" text PRIMARY KEY NOT NULL,
+	"user_id" text NOT NULL,
+	"title" text NOT NULL,
+	"slug" text NOT NULL,
+	"summary" text,
+	"context" text NOT NULL,
+	"options_considered" text NOT NULL,
+	"decision" text NOT NULL,
+	"consequences" text NOT NULL,
+	"status" "decision_status" DEFAULT 'proposed' NOT NULL,
+	"project_name" text NOT NULL,
+	"tags" text[] DEFAULT ARRAY[]::text[] NOT NULL,
+	"created_at" timestamp DEFAULT now() NOT NULL,
+	"updated_at" timestamp DEFAULT now() NOT NULL,
+	"archived_at" timestamp
+);
+--> statement-breakpoint
+CREATE TABLE "session" (
+	"sessionToken" text PRIMARY KEY NOT NULL,
+	"userId" text NOT NULL,
+	"expires" timestamp NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE "user" (
+	"id" text PRIMARY KEY NOT NULL,
+	"name" text,
+	"email" text NOT NULL,
+	"emailVerified" timestamp,
+	"image" text,
+	"password_hash" text
+);
+--> statement-breakpoint
+CREATE TABLE "verificationToken" (
+	"identifier" text NOT NULL,
+	"token" text NOT NULL,
+	"expires" timestamp NOT NULL,
+	CONSTRAINT "verificationToken_identifier_token_pk" PRIMARY KEY("identifier","token")
+);
+--> statement-breakpoint
+ALTER TABLE "account" ADD CONSTRAINT "account_userId_user_id_fk" FOREIGN KEY ("userId") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "decision" ADD CONSTRAINT "decision_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "session" ADD CONSTRAINT "session_userId_user_id_fk" FOREIGN KEY ("userId") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+CREATE UNIQUE INDEX "user_email_idx" ON "user" USING btree ("email");

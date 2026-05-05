@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: decisiontrail
+      POSTGRES_PASSWORD: decisiontrail
+      POSTGRES_DB: decisiontrail
+    ports:
+      - "5433:5432"
+    volumes:
+      - decisiontrail_postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U decisiontrail -d decisiontrail"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  decisiontrail_postgres:
