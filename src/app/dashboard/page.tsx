@@ -42,17 +42,14 @@ export default async function DashboardPage({
     .orderBy(desc(decisions.createdAt));
 
   return (
-    <main className="min-h-screen bg-zinc-50 px-6 py-10">
+    <main className="px-6 py-10">
       <div className="mx-auto max-w-5xl">
-        <div className="flex flex-col gap-4 border-b border-zinc-200 pb-6 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <p className="text-sm font-medium text-zinc-500">DecisionTrail</p>
-            <h1 className="mt-2 text-3xl font-semibold tracking-tight text-zinc-950">
-              Decisions
-            </h1>
-          </div>
+        <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+          <h1 className="text-3xl font-semibold tracking-tight text-zinc-950">
+            Decisions
+          </h1>
           <Link
-            className="flex h-11 items-center rounded-md bg-zinc-950 px-5 text-sm font-medium text-white transition hover:bg-zinc-800"
+            className="flex h-11 items-center justify-center rounded-md bg-zinc-950 px-5 text-sm font-medium text-white transition hover:bg-zinc-800"
             href="/dashboard/new"
           >
             New Decision
