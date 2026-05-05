@@ -89,6 +89,10 @@ What I built:
     - Created `EditDecisionPage` at `src/app/dashboard/decisions/[slug]/edit/page.tsx`.
     - Created `DeleteButton` client component with a simple confirmation state.
     - Integrated Edit and Delete actions into the decision detail page.
+- Implemented Search and Filtering:
+    - Created `src/app/dashboard/search-filters.tsx` client component using URL query parameters.
+    - Updated `DashboardPage` to apply search (title, project, tags) and status filters to the database query.
+    - Added "No results found" state for filtered views.
 
 Problems encountered:
 
