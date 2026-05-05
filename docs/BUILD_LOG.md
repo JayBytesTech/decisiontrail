@@ -83,10 +83,17 @@ What I built:
     - Added `generateDecisionMarkdown` utility in `src/lib/utils.ts`.
     - Created `ExportActions` client component for clipboard and file export.
     - Integrated export actions into the decision detail page.
+- Implemented Edit and Delete functionality:
+    - Added `updateDecisionAction` and `deleteDecisionAction` in `src/app/dashboard/actions.ts`.
+    - Refactored `DecisionForm` to support both creation and editing with pre-filled data.
+    - Created `EditDecisionPage` at `src/app/dashboard/decisions/[slug]/edit/page.tsx`.
+    - Created `DeleteButton` client component with a simple confirmation state.
+    - Integrated Edit and Delete actions into the decision detail page.
 
 Problems encountered:
 
 - Attempting to use command substitution in `run_shell_command` was blocked for security reasons. Resolved by using `write_file` to create the `.env` file with a hardcoded secret for local dev.
+- Missing imports in `src/app/dashboard/actions.ts` caused a compilation error. Fixed by adding `and` and `eq` from `drizzle-orm`.
 
 Decisions made:
 

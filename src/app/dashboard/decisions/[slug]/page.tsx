@@ -6,6 +6,7 @@ import { db } from "@/db";
 import { decisions } from "@/db/schema";
 import { formatDate, getStatusStyles } from "@/lib/utils";
 import { ExportActions } from "./export-actions";
+import { DeleteButton } from "./delete-button";
 
 export default async function DecisionDetailPage({
   params,
@@ -53,7 +54,28 @@ export default async function DecisionDetailPage({
             Back to decisions
           </Link>
 
-          <ExportActions decision={decision} />
+          <div className="flex items-center gap-6">
+            <Link
+              href={`/dashboard/decisions/${decision.slug}/edit`}
+              className="inline-flex items-center gap-2 text-sm font-medium text-zinc-600 hover:text-zinc-950"
+            >
+              <svg
+                className="h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M11 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                />
+              </svg>
+              Edit
+            </Link>
+            <ExportActions decision={decision} />
+          </div>
         </div>
 
         <header className="mt-8 border-b border-zinc-200 pb-8">
@@ -135,8 +157,9 @@ export default async function DecisionDetailPage({
             <p className="text-xs text-zinc-400">
               Last updated on {formatDate(decision.updatedAt)}
             </p>
-            <div className="flex gap-4">
+            <div className="flex items-center gap-8">
               <ExportActions decision={decision} />
+              <DeleteButton decisionId={decision.id} />
             </div>
           </div>
         </footer>

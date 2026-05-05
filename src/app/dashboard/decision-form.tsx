@@ -2,15 +2,36 @@
 
 import { useActionState } from "react";
 import Link from "next/link";
-import { createDecisionAction, type DecisionFormState } from "./actions";
+import {
+  createDecisionAction,
+  updateDecisionAction,
+  type DecisionFormState,
+} from "./actions";
+
+type DecisionFormProps = {
+  decision?: {
+    id: string;
+    title: string;
+    projectName: string;
+    status: "proposed" | "accepted" | "superseded" | "archived";
+    summary: string | null;
+    context: string;
+    optionsConsidered: string;
+    decision: string;
+    consequences: string;
+    tags: string[];
+  };
+};
 
 const initialState: DecisionFormState = {};
 
-export function DecisionForm() {
-  const [state, formAction, pending] = useActionState(
-    createDecisionAction,
-    initialState,
-  );
+export function DecisionForm({ decision }: DecisionFormProps) {
+  const isEditing = !!decision;
+  const action = isEditing
+    ? updateDecisionAction.bind(null, decision.id)
+    : createDecisionAction;
+
+  const [state, formAction, pending] = useActionState(action, initialState);
 
   return (
     <form action={formAction} className="space-y-6">
@@ -24,6 +45,7 @@ export function DecisionForm() {
           name="title"
           placeholder="e.g., Use PostgreSQL instead of SQLite"
           type="text"
+          defaultValue={decision?.title}
           required
         />
         <FieldErrors errors={state.errors?.title} />
@@ -42,6 +64,7 @@ export function DecisionForm() {
           name="projectName"
           placeholder="e.g., DecisionTrail"
           type="text"
+          defaultValue={decision?.projectName}
           required
         />
         <FieldErrors errors={state.errors?.projectName} />
@@ -55,7 +78,7 @@ export function DecisionForm() {
           className="h-11 w-full rounded-md border border-zinc-300 bg-white px-3 text-sm outline-none transition focus:border-zinc-900"
           id="status"
           name="status"
-          defaultValue="proposed"
+          defaultValue={decision?.status ?? "proposed"}
           required
         >
           <option value="proposed">Proposed</option>
@@ -75,6 +98,7 @@ export function DecisionForm() {
           id="summary"
           name="summary"
           placeholder="A brief one-sentence summary of the decision."
+          defaultValue={decision?.summary ?? ""}
         />
         <FieldErrors errors={state.errors?.summary} />
       </div>
@@ -88,6 +112,7 @@ export function DecisionForm() {
           id="context"
           name="context"
           placeholder="What is the problem we are solving? What is the background?"
+          defaultValue={decision?.context}
           required
         />
         <FieldErrors errors={state.errors?.context} />
@@ -105,6 +130,7 @@ export function DecisionForm() {
           id="optionsConsidered"
           name="optionsConsidered"
           placeholder="What were the alternatives? List them and their pros/cons."
+          defaultValue={decision?.optionsConsidered}
           required
         />
         <FieldErrors errors={state.errors?.optionsConsidered} />
@@ -119,6 +145,7 @@ export function DecisionForm() {
           id="decision"
           name="decision"
           placeholder="What did we choose and why?"
+          defaultValue={decision?.decision}
           required
         />
         <FieldErrors errors={state.errors?.decision} />
@@ -136,6 +163,7 @@ export function DecisionForm() {
           id="consequences"
           name="consequences"
           placeholder="What are the results of this decision? What is the impact?"
+          defaultValue={decision?.consequences}
           required
         />
         <FieldErrors errors={state.errors?.consequences} />
@@ -151,6 +179,7 @@ export function DecisionForm() {
           name="tags"
           placeholder="e.g., database, architecture, infra"
           type="text"
+          defaultValue={decision?.tags.join(", ")}
         />
         <FieldErrors errors={state.errors?.tags} />
       </div>
@@ -164,7 +193,7 @@ export function DecisionForm() {
       <div className="flex items-center gap-3 pt-4">
         <Link
           className="flex h-11 items-center rounded-md border border-zinc-300 px-5 text-sm font-medium text-zinc-700 hover:bg-zinc-50"
-          href="/dashboard"
+          href={isEditing ? `/dashboard/decisions/${decision.id}` : "/dashboard"}
         >
           Cancel
         </Link>
@@ -173,7 +202,13 @@ export function DecisionForm() {
           disabled={pending}
           type="submit"
         >
-          {pending ? "Creating..." : "Create decision"}
+          {pending
+            ? isEditing
+              ? "Updating..."
+              : "Creating..."
+            : isEditing
+              ? "Update decision"
+              : "Create decision"}
         </button>
       </div>
     </form>
