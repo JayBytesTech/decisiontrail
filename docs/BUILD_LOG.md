@@ -67,6 +67,18 @@ What I built:
 - Verified local environment (Docker, pnpm, Next.js).
 - Successfully ran database migrations.
 - Verified project builds with Next.js Turbopack.
+- Implemented the "New Decision" creation workflow:
+    - Added `src/lib/validations/decision.ts` for Zod validation.
+    - Added `src/app/dashboard/actions.ts` with `createDecisionAction`.
+    - Added `src/app/dashboard/decision-form.tsx` UI component.
+    - Added `src/app/dashboard/new/page.tsx` for the creation page.
+    - Updated `src/app/dashboard/page.tsx` with a link to create decisions.
+- Implemented decision listing and detail views:
+    - Created `src/lib/utils.ts` for date formatting and status styling.
+    - Updated `src/app/dashboard/page.tsx` to fetch and display the user's decision history in a grid of cards.
+    - Added an empty state for the dashboard when no decisions are found.
+    - Created `src/app/dashboard/decisions/[slug]/page.tsx` for full decision detail viewing.
+    - Implemented secure data fetching to ensure users can only view their own decisions.
 
 Problems encountered:
 
