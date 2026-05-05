@@ -79,6 +79,10 @@ What I built:
     - Added an empty state for the dashboard when no decisions are found.
     - Created `src/app/dashboard/decisions/[slug]/page.tsx` for full decision detail viewing.
     - Implemented secure data fetching to ensure users can only view their own decisions.
+- Implemented Markdown export functionality:
+    - Added `generateDecisionMarkdown` utility in `src/lib/utils.ts`.
+    - Created `ExportActions` client component for clipboard and file export.
+    - Integrated export actions into the decision detail page.
 
 Problems encountered:
 

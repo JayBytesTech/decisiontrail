@@ -20,3 +20,43 @@ export function getStatusStyles(status: string) {
       return "bg-zinc-50 text-zinc-700 border-zinc-200";
   }
 }
+
+export type DecisionExportData = {
+  title: string;
+  projectName: string;
+  status: string;
+  summary?: string | null;
+  context: string;
+  optionsConsidered: string;
+  decision: string;
+  consequences: string;
+  tags: string[];
+  createdAt: Date;
+};
+
+export function generateDecisionMarkdown(decision: DecisionExportData) {
+  return `# ADR: ${decision.title}
+
+- **Project:** ${decision.projectName}
+- **Status:** ${decision.status}
+- **Date:** ${formatDate(decision.createdAt)}
+- **Tags:** ${decision.tags.map((t) => `#${t}`).join(", ")}
+
+${decision.summary ? `## Summary\n\n${decision.summary}\n` : ""}
+## Context
+
+${decision.context}
+
+## Options Considered
+
+${decision.optionsConsidered}
+
+## Decision
+
+${decision.decision}
+
+## Consequences
+
+${decision.consequences}
+`;
+}
